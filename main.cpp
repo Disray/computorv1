@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:04:41 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 15:49:10 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/04 16:04:19 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 #include <exception>
+#include "computor.hpp"
 
 std::vector<std::pair<double, uint32_t>>	parse_formula( const std::string& formula )
 {
@@ -69,5 +70,6 @@ int	main( int argc, char **argv )
                   << ", power = " << poly[i].second
                   << std::endl;
     }
+	start_calculations(poly);
 	return (0);
 }

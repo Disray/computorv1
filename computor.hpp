@@ -1,30 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   first_degree.cpp                                   :+:      :+:    :+:   */
+/*   computor.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 15:03:37 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 16:34:10 by rrichard         ###   ########.fr       */
+/*   Created: 2025/12/04 16:03:37 by rrichard          #+#    #+#             */
+/*   Updated: 2025/12/04 16:34:36 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#pragma once
+#include <vector>
 
-void	first_degree( const std::vector<std::pair<double, uint32_t>>& poly )
-{
-	double	res = 0.0;
-	double	a = 0.0;
-	double	b = 0.0;
-
-	for (const auto& i : poly)
-	{
-		if (i.second == 0)
-			b = i.first;
-		else
-			a = i.first;
-	}
-	res = -b / a;
-	std::cout << "The solution is:\n" << res << std::endl;
-}
+void	start_calculations( std::vector<std::pair<double, uint32_t>>& poly );
+void	first_degree( const std::vector<std::pair<double, uint32_t>>& poly );
