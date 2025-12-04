@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:03:17 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 16:34:43 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/04 16:57:44 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,19 @@ void	start_calculations( std::vector<std::pair<double, uint32_t>>& poly )
 			max = std::max(max, poly[i].second);
 	}
 	print_reduced_form(poly);
-	std::cout << "Polynomial degree: " << max << std::endl;
+	if (max > 1)
+		std::cout << "Polynomial degree: " << max << std::endl;
 	if (max == 1)
 		first_degree(poly);
-	// else if (max == 2)
-	// 	second_degree(poly);
-	// else if (max == 0)
-	// {
-
-	// }
+	else if (max == 2)
+		second_degree(poly);
+	else if (max == 0)
+	{
+		if (poly[0].first != 0)
+			std::cout << "No solution." << std::endl;
+		else
+			std::cout << "Any real number is a solution." << std::endl;
+	}
 	else if (max < 0)
 		std::cout << "Wrong polynomial" << std::endl;
 	else

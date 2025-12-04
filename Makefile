@@ -19,6 +19,7 @@ OBJS = $(SRCS:$(SRCS_PATH)%.cpp=$(OBJS_PATH)%.o)
 SRCS_FILES =	main.cpp \
 				poly_analyzer.cpp \
 				first_degree.cpp \
+				second_degree.cpp \
 
 ################################################################################
 #                                    COlORS                                    #
