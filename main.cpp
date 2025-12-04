@@ -6,14 +6,10 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:04:41 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 16:04:19 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:59:13 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sstream>
-#include <iostream>
-#include <string>
-#include <exception>
 #include "computor.hpp"
 
 std::vector<std::pair<double, uint32_t>>	parse_formula( const std::string& formula )

@@ -20,6 +20,7 @@ SRCS_FILES =	main.cpp \
 				poly_analyzer.cpp \
 				first_degree.cpp \
 				second_degree.cpp \
+				ft_sqrt.cpp \
 
 ################################################################################
 #                                    COlORS                                    #

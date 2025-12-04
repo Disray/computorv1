@@ -6,13 +6,11 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:36:40 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 17:08:01 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:59:23 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.hpp"
-#include <iostream>
-#include <cmath>
 
 void	second_degree( const std::vector<std::pair<double, uint32_t>>& poly )
 {
@@ -38,8 +36,8 @@ void	second_degree( const std::vector<std::pair<double, uint32_t>>& poly )
 	{
 		double root1 = 0.0, root2 = 0.0;
 
-		root1 = (-b - std::sqrt(det)) / (2 * a);
-		root2 = (-b + std::sqrt(det)) / (2 * a);
+		root1 = (-b - ft_sqrt(det)) / (2 * a);
+		root2 = (-b + ft_sqrt(det)) / (2 * a);
 		std::cout << "Discriminant is strictly positive, the two solutions are:\n" << root1 << std::endl << root2 << std::endl;
 	}
 	else if (det < 0)
@@ -47,8 +45,8 @@ void	second_degree( const std::vector<std::pair<double, uint32_t>>& poly )
 		double	real_root = 0.0, imag_root1 = 0.0, imag_root2 = 0.0;
 
 		real_root = -b / (2 * a);
-		imag_root1 = std::sqrt(-det) / (2 * a);
-		imag_root2 = -std::sqrt(-det) / (2 * a);
+		imag_root1 = ft_sqrt(-det) / (2 * a);
+		imag_root2 = -ft_sqrt(-det) / (2 * a);
 		std::cout	<< "Discriminant is strictly negative, the two complex solutions are:\n"
 					<< real_root << (a > 0 ? " + " : " - ") << imag_root1 << "i" << std::endl
 					<< real_root << (a < 0 ? " + " : " ") << imag_root2 << "i" << std::endl;

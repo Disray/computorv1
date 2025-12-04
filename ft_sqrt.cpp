@@ -1,30 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   first_degree.cpp                                   :+:      :+:    :+:   */
+/*   ft_sqrt.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 15:03:37 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 17:59:39 by rrichard         ###   ########.fr       */
+/*   Created: 2025/12/04 17:09:38 by rrichard          #+#    #+#             */
+/*   Updated: 2025/12/04 17:53:54 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.hpp"
 
-void	first_degree( const std::vector<std::pair<double, uint32_t>>& poly )
+double	ft_abs( double x )
 {
-	double	res = 0.0;
-	double	a = 0.0;
-	double	b = 0.0;
+	return x > 0 ? x : -x;
+}
 
-	for (const auto& i : poly)
+double	ft_sqrt( double x )
+{
+	double			guess = x / 2;
+	const double	tolerance = 1e-6;
+
+	while (true)
 	{
-		if (i.second == 0)
-			b = i.first;
-		else
-			a = i.first;
+		double	other_side = x / guess;
+		double	new_guess = (guess + other_side) / 2;
+
+		double	diff = ft_abs(guess - new_guess);
+
+		if (diff < tolerance)
+			return (new_guess);
+		guess = new_guess;
 	}
-	res = -b / a;
-	std::cout << "The solution is:\n" << res << std::endl;
 }

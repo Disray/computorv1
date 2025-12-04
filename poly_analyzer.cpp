@@ -6,12 +6,11 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:03:17 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 16:57:44 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:59:20 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.hpp"
-#include <iostream>
 
 void	print_reduced_form( std::vector<std::pair<double, uint32_t>>& poly )
 {
