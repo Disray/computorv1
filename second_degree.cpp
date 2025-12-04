@@ -6,11 +6,48 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:36:40 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 17:59:23 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:17:29 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.hpp"
+
+void	print_complex( double re, double im )
+{
+	const double	eps = 1e-6;
+
+	auto near = [&](double x, double target)
+	{
+		return (std::abs(x - target) < eps);
+	};
+
+	if (std::abs(im) < eps)
+	{
+		std::cout << re << std::endl;
+		return ;
+	}
+	if (std::abs(re) < eps)
+	{
+		if (near(im, 1))
+			std::cout << "i";
+		else if (near(im, -1))
+			std::cout << "-i";
+		else
+			std::cout << im << "i";
+		std::cout << std::endl;
+		return ;
+	}
+	std::cout << re << " ";
+	if (near(im, 1))
+		std::cout << "+ i";
+	else if (near(im, -1))
+		std::cout << " - i";
+	else if (im > 0)
+		std::cout << "+ " << im << "i";
+	else
+		std::cout << "- " << -im << "i";
+	std::cout << std::endl;
+}
 
 void	second_degree( const std::vector<std::pair<double, uint32_t>>& poly )
 {
@@ -42,13 +79,13 @@ void	second_degree( const std::vector<std::pair<double, uint32_t>>& poly )
 	}
 	else if (det < 0)
 	{
-		double	real_root = 0.0, imag_root1 = 0.0, imag_root2 = 0.0;
+		double	real_root = 0.0, imag_root = 0.0;
 
-		real_root = -b / (2 * a);
-		imag_root1 = ft_sqrt(-det) / (2 * a);
-		imag_root2 = -ft_sqrt(-det) / (2 * a);
-		std::cout	<< "Discriminant is strictly negative, the two complex solutions are:\n"
-					<< real_root << (a > 0 ? " + " : " - ") << imag_root1 << "i" << std::endl
-					<< real_root << (a < 0 ? " + " : " ") << imag_root2 << "i" << std::endl;
+		if (b != 0.0)
+			real_root = -b / (2 * a);
+		imag_root = ft_sqrt(-det) / (2 * a);
+		std::cout << "Discriminant is strictly negative, the two complex solutions are:" << std::endl;
+		print_complex(real_root, imag_root);
+		print_complex(real_root, -imag_root);
 	}
 }

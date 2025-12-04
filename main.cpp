@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:04:41 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 17:59:13 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:07:18 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,6 @@ int	main( int argc, char **argv )
 	else
 		throw std::runtime_error("Error: wrong number of argument");
 	auto	poly = parse_formula(input);
-	std::cout << "Parsed terms:" << std::endl;
-    for (std::size_t i = 0; i < poly.size(); ++i)
-    {
-        std::cout << "  term " << i
-                  << " -> coef = " << poly[i].first
-                  << ", power = " << poly[i].second
-                  << std::endl;
-    }
 	start_calculations(poly);
 	return (0);
 }
