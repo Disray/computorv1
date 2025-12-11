@@ -21,6 +21,7 @@ SRCS_FILES =	main.cpp \
 				first_degree.cpp \
 				second_degree.cpp \
 				ft_sqrt.cpp \
+				Fraction.cpp \
 
 ################################################################################
 #                                    COlORS                                    #

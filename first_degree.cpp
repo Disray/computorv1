@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:03:37 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/11 15:17:33 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:25:15 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,9 @@ void	first_degree( PolyMap& poly )
 			a = i.second;
 	}
 	res = -b / a;
-	std::cout << "The solution is:\n" << res << std::endl;
+	Fraction	f(0, 1);
+	if (double_to_fraction(res, f))
+		std::cout << "The solution is:\n" << f << std::endl;
+	else
+		std::cout << "The solution is:\n" << res << std::endl;
 }

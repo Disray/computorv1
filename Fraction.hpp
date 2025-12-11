@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   computor.hpp                                       :+:      :+:    :+:   */
+/*   Fraction.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 16:03:37 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/11 17:24:24 by rrichard         ###   ########.fr       */
+/*   Created: 2025/12/11 16:39:17 by rrichard          #+#    #+#             */
+/*   Updated: 2025/12/11 17:36:49 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#include <vector>
-#include <sstream>
 #include <iostream>
-#include <string>
-#include <exception>
-#include <map>
-#include <cctype>
-#include "Fraction.hpp"
 
-using PolyMap = std::map<int, double>;
+class Fraction
+{
+	private:
+		int	numerator, denominator;
 
-void	start_calculations( PolyMap& poly );
-void	first_degree( PolyMap& poly );
-void	second_degree( PolyMap& poly );
+	public:
+		Fraction( int num, int den = 1 );
+		Fraction& operator=( const Fraction& other ) = default;
+		Fraction( const Fraction& other ) = default;
+		~Fraction() = default;
 
-double	ft_sqrt( double x );
-double	ft_abs( double x );
+		void	simplify();	
+		void	print() const;
+
+		friend std::ostream&	operator<<( std::ostream& os, const Fraction& f );
+};
+
+bool	double_to_fraction( double value, Fraction& out );
+int		ft_gcd(int a, int b);

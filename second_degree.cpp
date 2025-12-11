@@ -6,11 +6,21 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:36:40 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/11 15:18:39 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/11 17:35:49 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.hpp"
+
+static void	print_real( double x )
+{
+	Fraction f(0, 1);
+
+	if (double_to_fraction(x, f))
+		std::cout << f;
+	else
+		std::cout << x;
+}
 
 void	print_complex( double re, double im )
 {
@@ -23,7 +33,8 @@ void	print_complex( double re, double im )
 
 	if (ft_abs(im) < eps)
 	{
-		std::cout << re << std::endl;
+		print_real(re);
+		std::cout << std::endl;
 		return ;
 	}
 	if (ft_abs(re) < eps)
@@ -33,19 +44,31 @@ void	print_complex( double re, double im )
 		else if (near(im, -1))
 			std::cout << "-i";
 		else
-			std::cout << im << "i";
+		{
+			print_real(im);
+			std::cout << "i";
+		}
 		std::cout << std::endl;
 		return ;
 	}
-	std::cout << re << " ";
+	print_real(re);
+	std::cout << " ";
 	if (near(im, 1))
 		std::cout << "+ i";
 	else if (near(im, -1))
 		std::cout << " - i";
 	else if (im > 0)
-		std::cout << "+ " << im << "i";
+	{
+		std::cout << "+ ";
+		print_real(im);
+		std::cout << "i";
+	}
 	else
-		std::cout << "- " << -im << "i";
+	{
+		std::cout << "- ";
+		print_real(-im);
+		std::cout << "i";
+	}
 	std::cout << std::endl;
 }
 
@@ -65,9 +88,12 @@ void	second_degree( PolyMap& poly )
 	det = b * b - 4.0 * a * c;
 	if (det == 0)
 	{
+		Fraction f(0, 1);
 		double	res = -1.0 * b / (2 * a);
-
-		std::cout << "The solution is:\n" << res << std::endl;
+		
+		std::cout << "The solution is:" << std::endl;
+		print_real(res);
+		std::cout << std::endl;
 	}
 	else if (det > 0)
 	{
@@ -75,7 +101,13 @@ void	second_degree( PolyMap& poly )
 
 		root1 = (-b - ft_sqrt(det)) / (2 * a);
 		root2 = (-b + ft_sqrt(det)) / (2 * a);
-		std::cout << "Discriminant is strictly positive, the two solutions are:\n" << root1 << std::endl << root2 << std::endl;
+		Fraction f1(0, 1);
+		Fraction f2(0, 1);
+		std::cout << "Discriminant is strictly positive, the two solutions are:" << std::endl;
+		print_real(root1);
+		std::cout << std::endl;
+		print_real(root2);
+		std::cout << std::endl;
 	}
 	else if (det < 0)
 	{
