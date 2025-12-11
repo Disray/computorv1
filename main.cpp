@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:04:41 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/11 15:20:58 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/11 18:02:19 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,37 @@ static std::string	normalize( const std::string& str )
 	std::string	res;
 	res.reserve(str.size());
 
-	for (char c : str)
+	for (size_t i = 0; i < str.size(); i++)
 	{
+		char c = str[i];
+
 		if (std::isspace(static_cast<unsigned char>(c)))
 			continue;
 		if (c == 'X')
 			c = 'x';
+
 		if (c == '*')
-			continue;
+		{
+			char	prev = res.empty() ? '\0' : res.back();
+			char	next = '\0';
+			size_t	j = i + 1;
+			
+			while (j < str.size() && std::isspace(static_cast<unsigned char>(str[j])))
+				j++;
+			if (j < str.size())
+			{
+				next = str[j];
+				if (next == 'X')
+					next = 'x';
+			}
+			if (std::isdigit(static_cast<unsigned char>(prev)) && next == 'x')
+				continue;
+			throw std::runtime_error("Invalid use of '*', expected 'a * X^p'");
+		}
+		
+		if (!std::isdigit(static_cast<unsigned char>(c)) && c != 'x' && c != '+' && c != '-' && c != '=' && c != '^' && c != '.')
+			throw std::runtime_error("Invalid character in formula");
+
 		res.push_back(c);
 	}
 	return (res);
@@ -48,10 +71,12 @@ static void			parse_term( const std::string& term, int side_sign, PolyMap& poly 
 		throw std::runtime_error("invalid term: sign only");
 
 	auto	pos_x = term.find('x', i);
+
 	if (pos_x == std::string::npos)
 	{
 		double	magnitude = std::stod(term.substr(i));
 		double	coef	  = sign * side_sign * magnitude;
+
 		poly[0] += coef;
 		return;
 	}
@@ -63,16 +88,20 @@ static void			parse_term( const std::string& term, int side_sign, PolyMap& poly 
 	else
 		magnitude = std::stod(coef_str);
 	int	power = 1;
+
 	if (pos_x + 1 < term.size())
 	{
 		if (term[pos_x + 1] != '^')
 			throw std::runtime_error("invalid term: expected '^' after x");
+
 		std::string	exp_str = term.substr(pos_x + 2);
+
 		if (exp_str.empty())
 			throw std::runtime_error("invalid term: missing exponent after '^'");
 		power = std::stoi(exp_str);
 	}
 	double	coef  = sign * side_sign * magnitude;
+
 	poly[power] += coef;
 }
 
