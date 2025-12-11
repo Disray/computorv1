@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:36:40 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 18:17:29 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/11 15:18:39 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	print_complex( double re, double im )
 
 	auto near = [&](double x, double target)
 	{
-		return (std::abs(x - target) < eps);
+		return (ft_abs(x - target) < eps);
 	};
 
-	if (std::abs(im) < eps)
+	if (ft_abs(im) < eps)
 	{
 		std::cout << re << std::endl;
 		return ;
 	}
-	if (std::abs(re) < eps)
+	if (ft_abs(re) < eps)
 	{
 		if (near(im, 1))
 			std::cout << "i";
@@ -49,18 +49,18 @@ void	print_complex( double re, double im )
 	std::cout << std::endl;
 }
 
-void	second_degree( const std::vector<std::pair<double, uint32_t>>& poly )
+void	second_degree( PolyMap& poly )
 {
 	double	a = 0.0, b = 0.0, c = 0.0, det = 0.0;
 
-	for (const auto& i : poly)
+	for (auto& i : poly)
 	{
-		if (i.second == 0)
-			c = i.first;
-		else if (i.second == 1)
-			b = i.first;
+		if (i.first == 0)
+			c = i.second;
+		else if (i.first == 1)
+			b = i.second;
 		else
-			a = i.first;
+			a = i.second;
 	}
 	det = b * b - 4.0 * a * c;
 	if (det == 0)

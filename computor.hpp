@@ -6,7 +6,7 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 16:03:37 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 17:59:16 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/11 15:17:57 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,16 @@
 #include <iostream>
 #include <string>
 #include <exception>
+#include <map>
+#include <cctype>
 
-void	start_calculations( std::vector<std::pair<double, uint32_t>>& poly );
-void	first_degree( const std::vector<std::pair<double, uint32_t>>& poly );
-void	second_degree( const std::vector<std::pair<double, uint32_t>>& poly );
+
+using PolyMap = std::map<int, double>;
+
+
+void	start_calculations( PolyMap& poly );
+void	first_degree( PolyMap& poly );
+void	second_degree( PolyMap& poly );
 
 double	ft_sqrt( double x );
+double	ft_abs( double x );

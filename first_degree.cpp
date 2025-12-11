@@ -6,24 +6,24 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:03:37 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 17:59:39 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/11 15:17:33 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.hpp"
 
-void	first_degree( const std::vector<std::pair<double, uint32_t>>& poly )
+void	first_degree( PolyMap& poly )
 {
 	double	res = 0.0;
 	double	a = 0.0;
 	double	b = 0.0;
 
-	for (const auto& i : poly)
+	for (auto& i : poly)
 	{
-		if (i.second == 0)
-			b = i.first;
+		if (i.first == 0)
+			b = i.second;
 		else
-			a = i.first;
+			a = i.second;
 	}
 	res = -b / a;
 	std::cout << "The solution is:\n" << res << std::endl;

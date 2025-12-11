@@ -6,46 +6,110 @@
 /*   By: rrichard <rrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 15:04:41 by rrichard          #+#    #+#             */
-/*   Updated: 2025/12/04 18:07:18 by rrichard         ###   ########.fr       */
+/*   Updated: 2025/12/11 15:20:58 by rrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "computor.hpp"
 
-std::vector<std::pair<double, uint32_t>>	parse_formula( const std::string& formula )
+static std::string	normalize( const std::string& str )
 {
-	std::vector<std::pair<double, uint32_t>>	polynomial;
-	std::istringstream							iss(formula);
-	std::string									token;
-	double										sign = 1;
-	int											side = 1;
+	std::string	res;
+	res.reserve(str.size());
 
-	while (iss >> token)
+	for (char c : str)
 	{
-		if (token == "+" || token == "-")
-		{
-			sign = (token == "+") ? 1.0 : -1.0;
+		if (std::isspace(static_cast<unsigned char>(c)))
 			continue;
-		}
-		if (token == "=")
-		{
-			side = -1;
-			sign = 1.0;
+		if (c == 'X')
+			c = 'x';
+		if (c == '*')
 			continue;
-		}
-		if (token == "*")
-			continue;
-		double 		coef = 0.0;
-		uint32_t	power = 0;
-
-		coef = std::stod(token) * sign * side;
-		std::string	star, xpow;
-		if (!(iss >> star >> xpow)  || star != "*" || xpow.size() < 3 || xpow[0] != 'X' || xpow[1] != '^')
-			throw std::runtime_error("Invalid term format, expected 'a * X^p'");
-		power = static_cast<uint32_t>(std::stoul(xpow.substr(2)));
-		polynomial.push_back({coef, power});
+		res.push_back(c);
 	}
-	return (polynomial);
+	return (res);
+}
+
+static void			parse_term( const std::string& term, int side_sign, PolyMap& poly )
+{
+	if (term.empty())
+		throw std::runtime_error("empty term");
+
+	int		sign = 1;
+	size_t	i    = 0;
+
+	if (term[i] == '+' || term[i] == '-')
+	{
+		if (term[i] == '-')
+			sign = -1;
+		i++;
+	}
+	if (i >= term.size())
+		throw std::runtime_error("invalid term: sign only");
+
+	auto	pos_x = term.find('x', i);
+	if (pos_x == std::string::npos)
+	{
+		double	magnitude = std::stod(term.substr(i));
+		double	coef	  = sign * side_sign * magnitude;
+		poly[0] += coef;
+		return;
+	}
+	std::string	coef_str = term.substr(i, pos_x - i);
+	double		magnitude;
+
+	if (coef_str.empty())
+		magnitude = 1.0;
+	else
+		magnitude = std::stod(coef_str);
+	int	power = 1;
+	if (pos_x + 1 < term.size())
+	{
+		if (term[pos_x + 1] != '^')
+			throw std::runtime_error("invalid term: expected '^' after x");
+		std::string	exp_str = term.substr(pos_x + 2);
+		if (exp_str.empty())
+			throw std::runtime_error("invalid term: missing exponent after '^'");
+		power = std::stoi(exp_str);
+	}
+	double	coef  = sign * side_sign * magnitude;
+	poly[power] += coef;
+}
+
+static void	parse_side( const std::string& side, int side_sign, PolyMap& poly )
+{
+	std::string s = side;
+	if (!s.empty() && s[0] != '+' && s[0] != '-')
+		s.insert(s.begin(), '+');
+	
+	size_t	i = 0;
+	while (i < s.size())
+	{
+		size_t	j = i + 1;
+		while (j < s.size() && s[j] != '+' && s[j] != '-')
+			j++;
+		std::string	term_str = s.substr(i, j - i);
+		parse_term(term_str, side_sign, poly);
+		i = j;
+	}
+}
+
+static PolyMap	parse_formula( const std::string& formula )
+{
+	std::string	s = normalize(formula);
+	auto		pos_eq = s.find('=');
+
+	if (pos_eq == std::string::npos)
+		throw std::runtime_error("missing '='");		
+
+	std::string	lhs = s.substr(0, pos_eq);
+	std::string	rhs = s.substr(pos_eq + 1);
+
+	PolyMap	poly;
+
+	parse_side(lhs, +1, poly);
+	parse_side(rhs, -1, poly);
+	return (poly);
 }
 
 int	main( int argc, char **argv )
@@ -57,7 +121,15 @@ int	main( int argc, char **argv )
 		input = argv[1];
 	else
 		throw std::runtime_error("Error: wrong number of argument");
-	auto	poly = parse_formula(input);
-	start_calculations(poly);
+	try
+	{
+		auto	poly = parse_formula(input);
+		start_calculations(poly);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	
 	return (0);
 }
